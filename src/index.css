@@ -43,7 +43,8 @@ body {
 
 :root {
   --bg-color: #F5F5F5;
-  --attention-color: #E9D9D8;
+  --attention-color: #e0c9c8;
+  --attention-color-hover: #cda9a7;
   --green: #77C0AF;
   --gray: #999999;
   --text-color: #565656;

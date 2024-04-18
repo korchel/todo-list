@@ -1,7 +1,12 @@
 import React, { ChangeEventHandler, FormEventHandler, useState } from 'react';
-import { useGetTodosQuery } from '../store/todosApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { nanoid } from 'nanoid';
 import styled from 'styled-components';
+
 import TodoItem from './TodoItem';
+import { addTodo, getTodos } from '../store/todosSlice';
+import Header from './Header';
+
 
 const Container = styled.div`
   background-color: white;
@@ -29,15 +34,6 @@ const Input = styled.input`
   }
 `;
 
-const Header = styled.header`
-  padding: 1rem 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.8rem;
-  color: var(--gray);
-`;
-
 const Button = styled.button`
   border: 1px solid transparent;
   background: none;
@@ -50,10 +46,6 @@ const Button = styled.button`
   }
 `;
 
-const Filter = styled.div`
-  display: flex;
-`;
-
 const Pagination = styled.div`
   display: flex;
   justify-content: center;
@@ -64,8 +56,9 @@ const Pagination = styled.div`
 
 const TodoList: React.FC = () => {
   const [text, setText] = useState('');
+  const dispatch = useDispatch();
 
-  const { data } = useGetTodosQuery({limit: 10, skip: 0});
+  const todos = useSelector(getTodos);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setText(e.target.value);
@@ -73,20 +66,13 @@ const TodoList: React.FC = () => {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    dispatch(addTodo({ todo: text, completed: false, id: nanoid() }));
     setText('');
   };
 
   return (
     <Container>
-      <Header>
-        <p>2 items left</p>
-        <Filter>
-          <Button>All</Button>
-          <Button>Active</Button>
-          <Button>Completed</Button>
-        </Filter>
-        <Button>Clear completed</Button>
-      </Header>
+      <Header />
       <form onSubmit={handleSubmit}>
         <Input
           type="text"
@@ -97,7 +83,7 @@ const TodoList: React.FC = () => {
       </form>
       <div>
       {
-        data?.todos.map((item) => {
+        todos.map((item) => {
           return (
             <TodoItem key={item.id} {...item} />
           );
