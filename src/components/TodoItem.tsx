@@ -1,8 +1,7 @@
-import React, {useState} from "react";
+import React from "react";
 import styled, { css } from "styled-components";
-import { ITodo } from "../types";
-import { toggleTodo, removeTodo } from "../store/todosSlice";
-import { useDispatch } from "react-redux";
+import { ITask } from "../types";
+import { useRemoveTaskMutation, useUpdateTaskMutation } from "../store/todosApi";
 
 const CheckBox = styled.input`
   position: absolute;
@@ -78,23 +77,24 @@ const CloseButton = styled.button`
   }
 `;
 
-const TodoItem: React.FC<ITodo> = ({ todo, id, completed }) => {
-  const dispatch = useDispatch();
+const TodoItem: React.FC<ITask> = ({ task, id, done }) => {
+  const [removeTask] = useRemoveTaskMutation();
+  const [updateTask] = useUpdateTaskMutation();
   
   const handleChange = () => {
-    dispatch(toggleTodo(id));
+    updateTask({id, update: {done: !done}});
   };
   
   const handleClick = () => {
-    dispatch(removeTodo(id));
+    removeTask(id);
   };
 
   return (
     <TodoItemContainer>
       <div>
-        <CheckBox id={`${id}`} type="checkbox" checked={completed} onChange={handleChange}/>
+        <CheckBox id={`${id}`} type="checkbox" checked={done} onChange={handleChange}/>
         <CheckBoxMask onClick={handleChange}></CheckBoxMask>
-        <TodoName htmlFor={`${id}`} $completed={completed}>{todo}</TodoName>
+        <TodoName htmlFor={`${id}`} $completed={done}>{task}</TodoName>
       </div>
       <CloseButton onClick={handleClick}>&#x2715;</CloseButton>
     </TodoItemContainer>

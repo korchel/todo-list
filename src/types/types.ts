@@ -1,5 +1,7 @@
-export interface ITodo {
+export interface ITask {
   id: number,
-  todo: string,
-  completed: boolean,
+  task: string,
+  done: boolean,
 }
+
+export type FilterType = 'all' | 'completed' | 'active';

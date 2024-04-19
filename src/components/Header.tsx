@@ -1,7 +1,8 @@
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 
-import { clearCompleted, getActiveTodosNumber } from '../store/todosSlice';
+import { getFilter, setFilter } from '../store/filterSlice';
 
 const Filter = styled.div`
   display: flex;
@@ -16,7 +17,7 @@ const HeaderContainer = styled.header`
   color: var(--gray);
 `;
 
-const Button = styled.button`
+const Button = styled.button<{$active?: boolean}>`
   border: 1px solid transparent;
   background: none;
   cursor: pointer;
@@ -26,25 +27,30 @@ const Button = styled.button`
   &:hover {
     border: 1px solid var(--attention-color);
   }
+  ${props =>
+    props.$active &&
+    css`
+      border: 1px solid var(--attention-color);
+    `};
 `;
 
-const Header = () => {
-  const dispath = useDispatch();
-  const activeTodosNumber = useSelector(getActiveTodosNumber);
+interface IHeaderProps {
+  clearCompleted: () => void;
+}
 
-  const handleClear = () => {
-    dispath(clearCompleted());
-  }
+const Header: React.FC<IHeaderProps> = ({ clearCompleted }) => {
+  const dispatch = useDispatch();
+  const filter = useSelector(getFilter);
 
   return (
     <HeaderContainer>
-      <p>{activeTodosNumber} items left</p>
+      <p>1 items left</p>
       <Filter>
-        <Button>All</Button>
-        <Button>Active</Button>
-        <Button>Completed</Button>
+        <Button type="button" $active={filter === 'all'} onClick={() => dispatch(setFilter('all'))}>All</Button>
+        <Button type="button" $active={filter === 'active'} onClick={() => dispatch(setFilter('active'))}>Active</Button>
+        <Button type="button" $active={filter === 'completed'} onClick={() => dispatch(setFilter('completed'))}>Completed</Button>
       </Filter>
-      <Button onClick={handleClear}>Clear completed</Button>
+      <Button onClick={clearCompleted}>Clear completed</Button>
     </HeaderContainer>
   );
 };

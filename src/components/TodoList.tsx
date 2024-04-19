@@ -1,12 +1,13 @@
-import React, { ChangeEventHandler, FormEventHandler, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { nanoid } from 'nanoid';
+import React, { ChangeEventHandler, FormEventHandler, useEffect, useState } from 'react';
+
 import styled from 'styled-components';
 
 import TodoItem from './TodoItem';
-import { addTodo, getTodos } from '../store/todosSlice';
 import Header from './Header';
-
+import { useGetTasksQuery, useAddTaskMutation, useRemoveTaskMutation } from '../store/todosApi';
+import { FilterType, ITask } from '../types';
+import { useSelector } from 'react-redux';
+import { getFilter } from '../store/filterSlice';
 
 const Container = styled.div`
   background-color: white;
@@ -56,9 +57,23 @@ const Pagination = styled.div`
 
 const TodoList: React.FC = () => {
   const [text, setText] = useState('');
-  const dispatch = useDispatch();
+  const filter = useSelector(getFilter)
 
-  const todos = useSelector(getTodos);
+  const { data: tasks } = useGetTasksQuery();
+  const [addTask] = useAddTaskMutation();
+  const [removeTask] = useRemoveTaskMutation();
+  console.log(tasks)
+
+  const filteredTasks = tasks?.filter((task) => {
+    switch(filter) {
+      case "active":
+        return !task.done;
+      case "completed":
+        return task.done;
+      default:
+        return true;
+    }
+  });
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setText(e.target.value);
@@ -66,13 +81,21 @@ const TodoList: React.FC = () => {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    dispatch(addTodo({ todo: text, completed: false, id: nanoid() }));
+    addTask({task: text});
     setText('');
+  };
+
+  const clearCompleted = () => {
+    tasks?.forEach((task) => {
+      if (task.done) {
+        removeTask(task.id);
+      }
+    });
   };
 
   return (
     <Container>
-      <Header />
+      <Header clearCompleted={clearCompleted}/>
       <form onSubmit={handleSubmit}>
         <Input
           type="text"
@@ -83,7 +106,7 @@ const TodoList: React.FC = () => {
       </form>
       <div>
       {
-        todos.map((item) => {
+        filteredTasks?.map((item) => {
           return (
             <TodoItem key={item.id} {...item} />
           );
