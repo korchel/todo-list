@@ -1,23 +1,30 @@
 import React, { ChangeEventHandler, FormEventHandler, useState } from 'react';
+import chunk from 'lodash.chunk';
 
 import TodoItem from './TodoItem/TodoItem';
 import Header from './Header/Header';
 import { useGetTasksQuery, useAddTaskMutation, useRemoveTaskMutation } from '../store/todosApi';
 import { useSelector } from 'react-redux';
 import { getFilter } from '../store/filterSlice';
-import { Container, Input, ButtonGroup, Button} from './styles';
+import { Container, Input, ButtonGroup, Button, ListContainer} from './styles';
+import Skeleton from './Skeleton/Skeleton';
 
 
 const TodoList: React.FC = () => {
   const [text, setText] = useState('');
-  const filter = useSelector(getFilter)
+  const [currentPage, setCurrentPage] = useState(0);
 
-  const { data: tasks } = useGetTasksQuery();
+  const filter = useSelector(getFilter);
+
+  const { data: allTasks } = useGetTasksQuery();
   const [addTask] = useAddTaskMutation();
   const [removeTask] = useRemoveTaskMutation();
-  console.log(tasks)
 
-  const filteredTasks = tasks?.filter((task) => {
+  const pageSize = 10;
+
+
+
+  const filteredTasks = allTasks?.filter((task) => {
     switch(filter) {
       case "active":
         return !task.done;
@@ -27,6 +34,10 @@ const TodoList: React.FC = () => {
         return true;
     }
   });
+
+  const chunks = chunk(filteredTasks, pageSize);
+  const tasksChunks = chunks.map((items, index) => ({ items, pageNumber: index }));
+
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setText(e.target.value);
@@ -39,7 +50,7 @@ const TodoList: React.FC = () => {
   };
 
   const clearCompleted = () => {
-    tasks?.forEach((task) => {
+    allTasks?.forEach((task) => {
       if (task.done) {
         removeTask(task.id);
       }
@@ -57,19 +68,22 @@ const TodoList: React.FC = () => {
           placeholder="What needs to be done?"
         />
       </form>
-      <div>
-      {
-        filteredTasks?.map((item) => {
-          return (
-            <TodoItem key={item.id} {...item} />
-          );
-        })
-      }
-      </div>
+        <ListContainer>
+        <Skeleton />
+        {
+          tasksChunks[currentPage]?.items.map((item) => {
+            return (
+              <TodoItem key={item.id} {...item} />
+            );
+          })
+        }
+        </ListContainer>
       <ButtonGroup>
-        <Button>&laquo;</Button>
-        <p>...</p>
-        <Button>&raquo;</Button>
+        <Button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 0}>&laquo;</Button>
+        {tasksChunks.map(({pageNumber}) => (
+          <Button $active={pageNumber === currentPage} key={pageNumber} onClick={() => setCurrentPage(pageNumber)}>{pageNumber + 1}</Button>
+        ))}
+        <Button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === tasksChunks.length - 1}>&raquo;</Button>
       </ButtonGroup>
     </Container>
   );

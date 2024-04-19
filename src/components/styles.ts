@@ -1,8 +1,9 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 
 export const Container = styled.div`
   background-color: white;
   width: 100%;
+  height: fit-content;
   box-shadow: 0px 0px 15px var(--gray);
   border-radius: 0.5rem;
   overflow: hidden;
@@ -26,7 +27,7 @@ export const Input = styled.input`
   }
 `;
 
-export const Button = styled.button`
+export const Button = styled.button<{$active?: boolean}>`
   border: 1px solid transparent;
   background: none;
   cursor: pointer;
@@ -36,12 +37,22 @@ export const Button = styled.button`
   &:hover {
     border: 1px solid var(--attention-color);
   }
+  ${props =>
+    props.$active &&
+    css`
+      border: 1px solid var(--attention-color);
+    `};
 `;
 
 export const ButtonGroup = styled.div`
   display: flex;
   justify-content: center;
   padding: 1rem 1.5rem;
-  font-size: 1.5em;
+  font-size: 1rem;
   color: var(--gray);
+`;
+
+export const ListContainer = styled.div`
+  position: relative;
+  height: 560px;
 `;
