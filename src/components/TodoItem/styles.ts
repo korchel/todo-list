@@ -1,9 +1,6 @@
-import React from "react";
 import styled, { css } from "styled-components";
-import { ITask } from "../types";
-import { useRemoveTaskMutation, useUpdateTaskMutation } from "../store/todosApi";
 
-const CheckBox = styled.input`
+export const CheckBox = styled.input`
   position: absolute;
   visibility: hidden;
   &:checked + span {
@@ -15,7 +12,7 @@ const CheckBox = styled.input`
   }
 `;
 
-const CheckBoxMask = styled.span`
+export const CheckBoxMask = styled.span`
   position: absolute;
   display: block;
   height: 25px;
@@ -41,7 +38,7 @@ const CheckBoxMask = styled.span`
   }
 `;
 
-const TodoItemContainer = styled.div`
+export const TodoItemContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -52,7 +49,7 @@ const TodoItemContainer = styled.div`
   align-items: center;
 `;
 
-const TodoName = styled.label<{ $completed: boolean }>`
+export const Label = styled.label<{ $completed: boolean }>`
   margin-left: 30px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -65,7 +62,7 @@ const TodoName = styled.label<{ $completed: boolean }>`
     `};
 `;
 
-const CloseButton = styled.button`
+export const CloseButton = styled.button`
     border: none;
   background: none;
   cursor: pointer;
@@ -76,29 +73,3 @@ const CloseButton = styled.button`
     color: var(--attention-color-hover);
   }
 `;
-
-const TodoItem: React.FC<ITask> = ({ task, id, done }) => {
-  const [removeTask] = useRemoveTaskMutation();
-  const [updateTask] = useUpdateTaskMutation();
-  
-  const handleChange = () => {
-    updateTask({id, update: {done: !done}});
-  };
-  
-  const handleClick = () => {
-    removeTask(id);
-  };
-
-  return (
-    <TodoItemContainer>
-      <div>
-        <CheckBox id={`${id}`} type="checkbox" checked={done} onChange={handleChange}/>
-        <CheckBoxMask onClick={handleChange}></CheckBoxMask>
-        <TodoName htmlFor={`${id}`} $completed={done}>{task}</TodoName>
-      </div>
-      <CloseButton onClick={handleClick}>&#x2715;</CloseButton>
-    </TodoItemContainer>
-  )
-}
-
-export default TodoItem;
