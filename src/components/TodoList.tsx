@@ -22,8 +22,6 @@ const TodoList: React.FC = () => {
 
   const pageSize = 10;
 
-
-
   const filteredTasks = allTasks?.filter((task) => {
     switch(filter) {
       case "active":
@@ -34,6 +32,8 @@ const TodoList: React.FC = () => {
         return true;
     }
   });
+
+  const activeTasksNumber = allTasks?.filter((task) => !task.done).length ?? 0;
 
   const chunks = chunk(filteredTasks, pageSize);
   const tasksChunks = chunks.map((items, index) => ({ items, pageNumber: index }));
@@ -59,7 +59,7 @@ const TodoList: React.FC = () => {
 
   return (
     <Container>
-      <Header clearCompleted={clearCompleted}/>
+      <Header clearCompleted={clearCompleted} activeTasksNumber={activeTasksNumber}/>
       <form onSubmit={handleSubmit}>
         <Input
           type="text"

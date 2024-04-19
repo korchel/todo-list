@@ -7,15 +7,16 @@ import { HeaderContainer, ButtonGroup, Button } from './styles';
 
 interface IHeaderProps {
   clearCompleted: () => void;
+  activeTasksNumber: number;
 }
 
-const Header: React.FC<IHeaderProps> = ({ clearCompleted }) => {
+const Header: React.FC<IHeaderProps> = ({ clearCompleted, activeTasksNumber }) => {
   const dispatch = useDispatch();
   const filter = useSelector(getFilter);
 
   return (
     <HeaderContainer>
-      <p>1 items left</p>
+      <p>{activeTasksNumber} items left</p>
       <ButtonGroup>
         <Button type="button" $active={filter === 'all'} onClick={() => dispatch(setFilter('all'))}>All</Button>
         <Button type="button" $active={filter === 'active'} onClick={() => dispatch(setFilter('active'))}>Active</Button>
