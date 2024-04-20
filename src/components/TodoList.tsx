@@ -9,7 +9,6 @@ import { getFilter } from '../store/filterSlice';
 import { Container, Input, ButtonGroup, Button, ListContainer} from './styles';
 import Skeleton from './Skeleton/Skeleton';
 
-
 const TodoList: React.FC = () => {
   const [text, setText] = useState('');
   const [currentPage, setCurrentPage] = useState(0);

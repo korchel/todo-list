@@ -51,9 +51,6 @@ export const TodoItemContainer = styled.div`
 
 export const Label = styled.label<{ $completed: boolean }>`
   margin-left: 30px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
   cursor: pointer;
   ${props =>
     props.$completed &&
@@ -63,7 +60,7 @@ export const Label = styled.label<{ $completed: boolean }>`
 `;
 
 export const CloseButton = styled.button`
-    border: none;
+  border: none;
   background: none;
   cursor: pointer;
   color: var(--attention-color);
@@ -72,4 +69,29 @@ export const CloseButton = styled.button`
   &:hover {
     color: var(--attention-color-hover);
   }
+`;
+
+export const CheckBoxContainer = styled.div`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+`;
+
+export const EditButton = styled.button`
+  padding: 1px 8px;
+  border: none;
+  font-size: inherit;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+  i {
+    vertical-align: middle;
+  }
+  &:hover {
+    color: var(--attention-color-hover);
+  }
+`;
+
+export const ButtonGroup = styled.div`
+  display: flex;
 `;
