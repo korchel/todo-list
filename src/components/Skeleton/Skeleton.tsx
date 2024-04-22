@@ -17,7 +17,7 @@ const BlankLine = styled(TodoItemContainer)`
 const Skeleton = () => {
   return (
     <SkeletonContainer>
-      {Array.from({ length: 10 }, (_, i) => <BlankLine />)}
+      {Array.from({ length: 10 }, (_, i) => <BlankLine key={i} />)}
     </SkeletonContainer>
   );
 };

@@ -65,6 +65,7 @@ const TodoList: React.FC = () => {
           value={text}
           onChange={handleChange}
           placeholder="What needs to be done?"
+          aria-label="What needs to be done?"
         />
       </form>
         <ListContainer>

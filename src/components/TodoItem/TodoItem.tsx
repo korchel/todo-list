@@ -29,7 +29,7 @@ const TodoItem: React.FC<ITask> = ({ task, id, done }) => {
         <EditButton >
           <i className="fa fa-edit"></i>
         </EditButton>
-        <CloseButton onClick={handleClick}>&#x2715;</CloseButton>
+        <CloseButton onClick={handleClick} data-testid={`btn${id}`}>&#x2715;</CloseButton>
       </ButtonGroup>
     </TodoItemContainer>
   )
