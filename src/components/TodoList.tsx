@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux';
 import { getFilter } from '../store/filterSlice';
 import { Container, Input, ButtonGroup, Button, ListContainer} from './styles';
 import Skeleton from './Skeleton/Skeleton';
+import Modal from "./Modal/Modal";
+import {getShown, getTask} from '../store/modalSlice';
 
 const TodoList: React.FC = () => {
   const [text, setText] = useState('');
@@ -15,9 +17,13 @@ const TodoList: React.FC = () => {
 
   const filter = useSelector(getFilter);
 
+
+
   const { data: allTasks } = useGetTasksQuery();
   const [addTask] = useAddTaskMutation();
   const [removeTask] = useRemoveTaskMutation();
+
+  const showModal = useSelector(getShown);
 
   const pageSize = 10;
 
@@ -36,6 +42,7 @@ const TodoList: React.FC = () => {
 
   const chunks = chunk(filteredTasks, pageSize);
   const tasksChunks = chunks.map((items, index) => ({ items, pageNumber: index }));
+
 
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -85,6 +92,7 @@ const TodoList: React.FC = () => {
         ))}
         <Button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === tasksChunks.length - 1}>&raquo;</Button>
       </ButtonGroup>
+      {showModal && <Modal />}
     </Container>
   );
 }

@@ -43,12 +43,14 @@ body {
 
 :root {
   --bg-color: #F5F5F5;
-  --attention-color: #e0c9c8;
+  --attention-color: #d7b9b8;
   --attention-color-hover: #b17976;
   --green: #77C0AF;
+  --green-hover: #4aa08c;
   --gray: #999999;
   --text-color: #565656;
   --border: #DCDCDC;
+  --white: white;
 }
 
 p {
