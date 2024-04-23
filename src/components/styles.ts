@@ -28,7 +28,7 @@ export const Input = styled.input`
   }
 `;
 
-export const Button = styled.button<{$active?: boolean}>`
+export const Button = styled.button<{$active?: boolean, $disabled?: boolean}>`
   border: 1px solid transparent;
   background: none;
   cursor: pointer;
@@ -42,6 +42,11 @@ export const Button = styled.button<{$active?: boolean}>`
     props.$active &&
     css`
       border: 1px solid var(--attention-color);
+    `};
+  ${props =>
+    props.$disabled &&
+    css`
+      pointer-events: none;
     `};
 `;
 

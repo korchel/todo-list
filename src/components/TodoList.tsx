@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, FormEventHandler, useState } from 'react';
+import React, { ChangeEventHandler, FormEventHandler, useState, useRef, useEffect } from 'react';
 import chunk from 'lodash.chunk';
 
 import TodoItem from './TodoItem/TodoItem';
@@ -9,15 +9,14 @@ import { getFilter } from '../store/filterSlice';
 import { Container, Input, ButtonGroup, Button, ListContainer} from './styles';
 import Skeleton from './Skeleton/Skeleton';
 import Modal from "./Modal/Modal";
-import {getShown, getTask} from '../store/modalSlice';
+import {getShown} from '../store/modalSlice';
 
 const TodoList: React.FC = () => {
+  const ref = useRef<HTMLInputElement>(null);
   const [text, setText] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
 
   const filter = useSelector(getFilter);
-
-
 
   const { data: allTasks } = useGetTasksQuery();
   const [addTask] = useAddTaskMutation();
@@ -43,8 +42,6 @@ const TodoList: React.FC = () => {
   const chunks = chunk(filteredTasks, pageSize);
   const tasksChunks = chunks.map((items, index) => ({ items, pageNumber: index }));
 
-
-
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setText(e.target.value);
   };
@@ -63,6 +60,10 @@ const TodoList: React.FC = () => {
     });
   };
 
+  useEffect(() => {
+    ref.current?.focus();
+  });
+
   return (
     <Container>
       <Header clearCompleted={clearCompleted} activeTasksNumber={activeTasksNumber}/>
@@ -73,6 +74,7 @@ const TodoList: React.FC = () => {
           onChange={handleChange}
           placeholder="What needs to be done?"
           aria-label="What needs to be done?"
+          ref={ref}
         />
       </form>
         <ListContainer>
@@ -86,11 +88,11 @@ const TodoList: React.FC = () => {
         }
         </ListContainer>
       <ButtonGroup>
-        <Button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 0}>&laquo;</Button>
+        <Button onClick={() => setCurrentPage(currentPage - 1)} $disabled={currentPage === 0}>&laquo;</Button>
         {tasksChunks.map(({pageNumber}) => (
           <Button $active={pageNumber === currentPage} key={pageNumber} onClick={() => setCurrentPage(pageNumber)}>{pageNumber + 1}</Button>
         ))}
-        <Button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === tasksChunks.length - 1}>&raquo;</Button>
+        <Button onClick={() => setCurrentPage(currentPage + 1)} $disabled={currentPage === tasksChunks.length - 1}>&raquo;</Button>
       </ButtonGroup>
       {showModal && <Modal />}
     </Container>

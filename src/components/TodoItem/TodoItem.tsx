@@ -7,6 +7,7 @@ import { openModal } from "../../store/modalSlice";
 import { useDispatch } from "react-redux";
 
 const TodoItem: React.FC<ITask> = ({ task, id, done }) => {
+
   const dispatch = useDispatch();
   const [removeTask] = useRemoveTaskMutation();
   const [updateTask] = useUpdateTaskMutation();
