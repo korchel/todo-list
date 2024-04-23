@@ -1,5 +1,50 @@
 import styled, { css } from "styled-components";
 
+export const TodoItemContainer = styled.div`
+  position: relative;
+  padding: 1em 1.5rem;
+  border-bottom: 1px solid var(--border);
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const CheckBoxContainer = styled.div`
+  width: 85%;
+  display: flex;
+  align-items: center;
+`;
+
+export const Label = styled.label<{ $completed: boolean }>`
+  margin-left: 30px;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  ${props =>
+    props.$completed &&
+    css`
+      text-decoration: line-through;
+    `};
+  &:hover {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    height: auto;
+    width: 90%;
+    margin: 0;
+    padding: 1em;
+    border: 1px solid var(--border);
+    border-radius: 0.5em;
+
+    text-overflow: clip;;
+    background-color: var(--white);
+    white-space: wrap;
+    z-index: 10;
+  }
+`;
+
 export const CheckBox = styled.input`
   position: absolute;
   visibility: hidden;
@@ -38,27 +83,6 @@ export const CheckBoxMask = styled.span`
   }
 `;
 
-export const TodoItemContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  padding: 1em 1.5rem;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-`;
-
-export const Label = styled.label<{ $completed: boolean }>`
-  margin-left: 30px;
-  cursor: pointer;
-  ${props =>
-    props.$completed &&
-    css`
-      text-decoration: line-through;
-    `};
-`;
-
 export const CloseButton = styled.button`
   border: none;
   background: none;
@@ -71,11 +95,7 @@ export const CloseButton = styled.button`
   }
 `;
 
-export const CheckBoxContainer = styled.div`
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-`;
+
 
 export const EditButton = styled.button`
   padding: 1px 8px;

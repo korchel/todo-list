@@ -35,7 +35,7 @@ export const Textarea = styled.textarea`
   border-bottom: 2px solid var(--border);
   border-top: 2px solid var(--border);
   font-size: 1rem;
-  font-style: inherit;
+  font-family: inherit;
   color: inherit;
   &:focus {
     outline: none;
