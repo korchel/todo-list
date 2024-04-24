@@ -56,9 +56,14 @@ export const ButtonGroup = styled.div`
   padding: 1rem 1.5rem;
   font-size: 1rem;
   color: var(--gray);
+  border-top: 1px solid var(--border);
 `;
 
 export const ListContainer = styled.div`
   position: relative;
   height: 560px;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
