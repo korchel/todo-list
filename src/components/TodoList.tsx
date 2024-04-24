@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, FormEventHandler, useState, useRef, useEffect } from 'react';
+import React, { type ChangeEventHandler, type FormEventHandler, useState, useRef, useEffect } from 'react';
 import chunk from 'lodash.chunk';
 
 import TodoItem from './TodoItem/TodoItem';
@@ -6,10 +6,10 @@ import Header from './Header/Header';
 import { useGetTasksQuery, useAddTaskMutation, useRemoveTaskMutation } from '../store/todosApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFilter } from '../store/filterSlice';
-import { Container, Input, ButtonGroup, Button, ListContainer} from './styles';
+import { Container, Input, ButtonGroup, Button, ListContainer } from './styles';
 import Skeleton from './Skeleton/Skeleton';
-import Modal from "./Modal/Modal";
-import {getShown, openModal} from '../store/modalSlice';
+import Modal from './Modal/Modal';
+import { getShown, openModal } from '../store/modalSlice';
 
 const TodoList: React.FC = () => {
   const ref = useRef<HTMLInputElement>(null);
@@ -28,10 +28,10 @@ const TodoList: React.FC = () => {
   const pageSize = 10;
 
   const filteredTasks = allTasks?.filter((task) => {
-    switch(filter) {
-      case "active":
+    switch (filter) {
+      case 'active':
         return !task.done;
-      case "completed":
+      case 'completed':
         return task.done;
       default:
         return true;
@@ -49,11 +49,11 @@ const TodoList: React.FC = () => {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    addTask({task: text});
+    addTask({ task: text });
     setText('');
   };
 
-  const clearCompleted = () => {
+  const clearCompleted = (): void => {
     allTasks?.forEach((task) => {
       if (task.done) {
         removeTask(task.id);
@@ -70,12 +70,12 @@ const TodoList: React.FC = () => {
       dispatch(openModal({ text: 'Server error occured', type: 'error' }));
     }
     if (isAddError) {
-      dispatch(openModal({ text: 'Task already exists!', type: 'error' }))
+      dispatch(openModal({ text: 'Task already exists!', type: 'error' }));
     }
   }, [isAddError, isFetchError]);
 
   return (
-    <Container>
+    <Container $showModal={showModal}>
       <Header clearCompleted={clearCompleted} activeTasksNumber={activeTasksNumber}/>
       <form onSubmit={handleSubmit}>
         <Input
@@ -98,15 +98,15 @@ const TodoList: React.FC = () => {
         }
         </ListContainer>
       <ButtonGroup>
-        <Button onClick={() => setCurrentPage(currentPage - 1)} $disabled={currentPage === 0}>&laquo;</Button>
-        {tasksChunks.map(({pageNumber}) => (
-          <Button $active={pageNumber === currentPage} key={pageNumber} onClick={() => setCurrentPage(pageNumber)}>{pageNumber + 1}</Button>
+        <Button onClick={() => { setCurrentPage(currentPage - 1); }} $disabled={currentPage === 0}>&laquo;</Button>
+        {tasksChunks.map(({ pageNumber }) => (
+          <Button $active={pageNumber === currentPage} key={pageNumber} onClick={() => { setCurrentPage(pageNumber); }}>{pageNumber + 1}</Button>
         ))}
-        <Button onClick={() => setCurrentPage(currentPage + 1)} $disabled={currentPage === tasksChunks.length - 1}>&raquo;</Button>
+        <Button onClick={() => { setCurrentPage(currentPage + 1); }} $disabled={currentPage === tasksChunks.length - 1}>&raquo;</Button>
       </ButtonGroup>
       {showModal && <Modal />}
     </Container>
   );
-}
+};
 
 export default TodoList;

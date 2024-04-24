@@ -1,4 +1,4 @@
-import styled, {css} from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const ButtonGroup = styled.div`
   display: flex;
@@ -13,7 +13,7 @@ export const HeaderContainer = styled.header`
   color: var(--gray);
 `;
 
-export const Button = styled.button<{$active?: boolean}>`
+export const Button = styled.button<{ $active?: boolean }>`
   border: 1px solid transparent;
   background: none;
   cursor: pointer;

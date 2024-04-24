@@ -1,9 +1,9 @@
-import React, { ChangeEventHandler, useState } from "react";
+import React, { type ChangeEventHandler, useState } from 'react';
 
-import { closeModal, getId, getText } from "../../../store/modalSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { Form, Textarea, ButtonGroup, Button } from "./styles";
-import { useUpdateTaskMutation } from "../../../store/todosApi";
+import { closeModal, getId, getText } from '../../../store/modalSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { Form, Textarea, ButtonGroup, Button } from './styles';
+import { useUpdateTaskMutation } from '../../../store/todosApi';
 
 const EditModal: React.FC = () => {
   const dispatch = useDispatch();
@@ -13,21 +13,21 @@ const EditModal: React.FC = () => {
   const [newText, setNewText] = useState<string>(text);
   const [updateTask] = useUpdateTaskMutation();
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     dispatch(closeModal());
   };
 
   const handleChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setNewText(e.target.value);
   };
-  const handleSubmit = () => {
-    id && updateTask({id, update: {task: newText}});
+  const handleSubmit = (): void => {
+    id && updateTask({ id, update: { task: newText } });
   };
 
   return (
     <>
       <Form onSubmit={handleSubmit}>
-        <Textarea aria-label="Edit task" value={newText} onChange={(e) => handleChange(e)}  />
+        <Textarea aria-label="Edit task" value={newText} onChange={(e) => { handleChange(e); }} />
         <ButtonGroup>
           <Button $green type="submit">Save</Button>
           <Button $red onClick={handleClose}>Cancel</Button>

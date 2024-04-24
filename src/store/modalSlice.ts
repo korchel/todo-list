@@ -14,7 +14,7 @@ const initialState: IState = {
   id: null,
   shown: false,
   text: '',
-}
+};
 
 const modalSlice = createSlice({
   name: 'modal',
@@ -35,10 +35,10 @@ const modalSlice = createSlice({
   },
 });
 
-export const getId = (state: RootStateType) => state.modalSlice.id;
+export const getId = (state: RootStateType): number | null => state.modalSlice.id;
 export const getText = (state: RootStateType): string => state.modalSlice.text;
-export const getShown = (state: RootStateType) => state.modalSlice.shown;
-export const getType = (state: RootStateType) => state.modalSlice.type;
+export const getShown = (state: RootStateType): boolean => state.modalSlice.shown;
+export const getType = (state: RootStateType): null | 'edit' | 'error' => state.modalSlice.type;
 
 export const { openModal, closeModal } = modalSlice.actions;
 

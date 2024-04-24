@@ -19,7 +19,7 @@ const Heading = styled.h1`
   font-size: 5rem;
 `;
 
-function App() {
+const App: React.FC = () => {
   return (
     <Container>
       <Provider store={store}>
@@ -28,6 +28,6 @@ function App() {
       </Provider>
     </Container>
   );
-}
+};
 
 export default App;

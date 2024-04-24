@@ -1,13 +1,18 @@
-import styled, {css} from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.div<{ $showModal: boolean }>`
   position: relative;
-  background-color: white;
   width: 100%;
-  height: fit-content;
   box-shadow: 0px 0px 15px var(--gray);
   border-radius: 0.5rem;
   overflow: hidden;
+
+  background-color: white;
+  ${props =>
+    props.$showModal &&
+    css`
+      pointer-events: none;
+    `};
 `;
 
 export const Input = styled.input`
@@ -16,6 +21,7 @@ export const Input = styled.input`
   border: none;
   border-bottom: 2px solid var(--border);
   border-top: 2px solid var(--border);
+
   font-size: 1rem;
   color: inherit;
   &:focus {
@@ -28,13 +34,14 @@ export const Input = styled.input`
   }
 `;
 
-export const Button = styled.button<{$active?: boolean, $disabled?: boolean}>`
+export const Button = styled.button<{ $active?: boolean, $disabled?: boolean }>`
   border: 1px solid transparent;
-  background: none;
-  cursor: pointer;
+  border-radius: 3px;
+
   color: inherit;
   font-size: inherit;
-  border-radius: 3px;
+  background: none;
+  cursor: pointer;
   &:hover {
     border: 1px solid var(--attention-color);
   }
@@ -54,9 +61,10 @@ export const ButtonGroup = styled.div`
   display: flex;
   justify-content: center;
   padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border);
+
   font-size: 1rem;
   color: var(--gray);
-  border-top: 1px solid var(--border);
 `;
 
 export const ListContainer = styled.div`

@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
+
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ITask } from '../types';
+import { type ITask } from '../types';
 
 interface ItaskUpdateRequest {
   id: number,
@@ -46,7 +48,7 @@ export const todosApi = createApi({
     }),
 
     updateTask: builder.mutation<void, ItaskUpdateRequest>({
-      query: ({id, update}) => ({
+      query: ({ id, update }) => ({
         url: `${id}`,
         method: 'PUT',
         body: update,

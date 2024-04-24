@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { RootStateType } from './index';
-import { FilterType } from '../types';
+import { type FilterType } from '../types';
 
 interface IState {
   filter: FilterType,
@@ -9,7 +9,7 @@ interface IState {
 
 const initialState: IState = {
   filter: 'all',
-}
+};
 
 const todosSlice = createSlice({
   name: 'filter',
@@ -17,7 +17,7 @@ const todosSlice = createSlice({
   reducers: {
     setFilter: (state, { payload }) => {
       state.filter = payload;
-    } 
+    }
   },
 });
 

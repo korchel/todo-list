@@ -1,20 +1,8 @@
-import styled from 'styled-components';
+import React from 'react';
 
-import {TodoItemContainer} from '../TodoItem/styles';
+import { BlankLine, SkeletonContainer } from './styles';
 
-const SkeletonContainer = styled.div`
-  position: absolute;
-  width: 500px;
-  top: 0;
-  left: 0;
-
-`;
-
-const BlankLine = styled(TodoItemContainer)`
-  height: 56px;
-`;
-
-const Skeleton = () => {
+const Skeleton: React.FC = () => {
   return (
     <SkeletonContainer>
       {Array.from({ length: 10 }, (_, i) => <BlankLine key={i} />)}

@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import {todosApi} from './todosApi';
+import { todosApi } from './todosApi';
 import filterSlice from './filterSlice';
 import modalSlice from './modalSlice';
 

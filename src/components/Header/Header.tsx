@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getFilter, setFilter } from '../../store/filterSlice';
 import { HeaderContainer, ButtonGroup, Button } from './styles';
 
-
 interface IHeaderProps {
   clearCompleted: () => void;
   activeTasksNumber: number;
