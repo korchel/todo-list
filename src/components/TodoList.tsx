@@ -78,13 +78,12 @@ const TodoList: React.FC = () => {
         />
       </form>
         <ListContainer>
-        <Skeleton />
-        {
+        { tasksChunks.length > 0 ? 
           tasksChunks[currentPage]?.items.map((item) => {
             return (
               <TodoItem key={item.id} {...item} />
             );
-          })
+          }) : <Skeleton />
         }
         </ListContainer>
       <ButtonGroup>

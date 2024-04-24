@@ -61,4 +61,5 @@ export const ButtonGroup = styled.div`
 export const ListContainer = styled.div`
   position: relative;
   height: 560px;
+  overflow-y: auto;
 `;
