@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { ITask } from "../../types";
 import { useRemoveTaskMutation, useUpdateTaskMutation } from "../../store/todosApi";
@@ -7,10 +7,9 @@ import { openModal } from "../../store/modalSlice";
 import { useDispatch } from "react-redux";
 
 const TodoItem: React.FC<ITask> = ({ task, id, done }) => {
-
   const dispatch = useDispatch();
-  const [removeTask] = useRemoveTaskMutation();
-  const [updateTask] = useUpdateTaskMutation();
+  const [removeTask, { isError: isRemoveError}] = useRemoveTaskMutation();
+  const [updateTask, { isError: isUpdateError }] = useUpdateTaskMutation();
   
   const handleCheck = () => {
     updateTask({id, update: {done: !done}});
@@ -21,8 +20,17 @@ const TodoItem: React.FC<ITask> = ({ task, id, done }) => {
   };
 
   const handleEdit = () => {
-    dispatch(openModal({task, id}));
-  }
+    dispatch(openModal({text: task, id, type: 'edit'}));
+  };
+
+  useEffect(() => {
+    if (isRemoveError) {
+      dispatch(openModal({text: 'Task was not removed', type: 'error'}));
+    }
+    if (isUpdateError) {
+      dispatch(openModal({text: 'Task was not updated', type: 'error'}));
+    }
+  }, [isRemoveError, isUpdateError])
 
   return (
     <TodoItemContainer>

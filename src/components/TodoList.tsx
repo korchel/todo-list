@@ -4,22 +4,23 @@ import chunk from 'lodash.chunk';
 import TodoItem from './TodoItem/TodoItem';
 import Header from './Header/Header';
 import { useGetTasksQuery, useAddTaskMutation, useRemoveTaskMutation } from '../store/todosApi';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getFilter } from '../store/filterSlice';
 import { Container, Input, ButtonGroup, Button, ListContainer} from './styles';
 import Skeleton from './Skeleton/Skeleton';
 import Modal from "./Modal/Modal";
-import {getShown} from '../store/modalSlice';
+import {getShown, openModal} from '../store/modalSlice';
 
 const TodoList: React.FC = () => {
   const ref = useRef<HTMLInputElement>(null);
+  const dispatch = useDispatch();
   const [text, setText] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
 
   const filter = useSelector(getFilter);
 
-  const { data: allTasks } = useGetTasksQuery();
-  const [addTask] = useAddTaskMutation();
+  const { data: allTasks, isError: isFetchError } = useGetTasksQuery();
+  const [addTask, { isError: isAddError }] = useAddTaskMutation();
   const [removeTask] = useRemoveTaskMutation();
 
   const showModal = useSelector(getShown);
@@ -63,6 +64,15 @@ const TodoList: React.FC = () => {
   useEffect(() => {
     ref.current?.focus();
   });
+
+  useEffect(() => {
+    if (isFetchError) {
+      dispatch(openModal({ text: 'Server error occured', type: 'error' }));
+    }
+    if (isAddError) {
+      dispatch(openModal({ text: 'Task already exists!', type: 'error' }))
+    }
+  }, [isAddError, isFetchError]);
 
   return (
     <Container>

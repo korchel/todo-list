@@ -6,14 +6,14 @@ interface IState {
   type: null | 'edit' | 'error',
   id: null | number,
   shown: boolean,
-  task: string,
+  text: string,
 }
 
 const initialState: IState = {
   type: null,
   id: null,
   shown: false,
-  task: '',
+  text: '',
 }
 
 const modalSlice = createSlice({
@@ -21,21 +21,25 @@ const modalSlice = createSlice({
   initialState,
   reducers: {
     openModal: (state, { payload }) => {
-      state.task = payload.task;
+      state.text = payload.text;
       state.id = payload.id;
+      state.type = payload.type;
       state.shown = true;
     },
     closeModal: (state) => {
-      state.task = '';
+      state.text = '';
       state.shown = false;
+      state.type = null;
       state.id = null;
     },
   },
 });
 
 export const getId = (state: RootStateType) => state.modalSlice.id;
-export const getTask = (state: RootStateType): string => state.modalSlice.task;
+export const getText = (state: RootStateType): string => state.modalSlice.text;
 export const getShown = (state: RootStateType) => state.modalSlice.shown;
+export const getType = (state: RootStateType) => state.modalSlice.type;
+
 export const { openModal, closeModal } = modalSlice.actions;
 
 export default modalSlice.reducer;
