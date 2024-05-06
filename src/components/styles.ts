@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const Container = styled.div<{ $showModal: boolean }>`
+export const Container = styled.div<{ $disable: boolean }>`
   position: relative;
   width: 100%;
   box-shadow: 0px 0px 15px var(--gray);
@@ -9,7 +9,7 @@ export const Container = styled.div<{ $showModal: boolean }>`
 
   background-color: white;
   ${props =>
-    props.$showModal &&
+    props.$disable &&
     css`
       pointer-events: none;
     `};

@@ -75,7 +75,7 @@ const TodoList: React.FC = () => {
   }, [isAddError, isFetchError]);
 
   return (
-    <Container $showModal={showModal}>
+    <Container $disable={showModal}>
       <Header clearCompleted={clearCompleted} activeTasksNumber={activeTasksNumber}/>
       <form onSubmit={handleSubmit}>
         <Input
@@ -104,7 +104,7 @@ const TodoList: React.FC = () => {
         ))}
         <Button onClick={() => { setCurrentPage(currentPage + 1); }} $disabled={currentPage === tasksChunks.length - 1}>&raquo;</Button>
       </ButtonGroup>
-      {showModal && <Modal />}
+      <Modal />
     </Container>
   );
 };
