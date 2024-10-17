@@ -1,0 +1,28 @@
+volumes:
+  db-volume:
+services:
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+    ports:
+      - '127.0.0.1:5432:5432'
+  
+  backend:
+    restart: always
+    build: ./backend
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+
+  frontend:
+    image: frontend:0.0.1
+    build: ./frontend
+    restart: always
+    ports:
+      - '3000:3000'
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app

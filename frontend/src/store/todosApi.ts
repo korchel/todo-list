@@ -13,7 +13,7 @@ interface ItaskUpdateRequest {
 
 export const todosApi = createApi({
 	reducerPath: 'todos',
-	baseQuery: fetchBaseQuery({ baseUrl: 'https://todo-api-5ves.onrender.com/api/v1/todos' }),
+	baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost/todos' }),
 	tagTypes: ['Task'],
 	endpoints: (builder) => ({
 		getTasks: builder.query<ITask[], void>({
