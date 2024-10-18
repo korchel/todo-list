@@ -10,6 +10,7 @@ import {
 import { RequestHandler } from "express";
 
 export const getTodos: RequestHandler = (req, res) => {
+  res.send("getTodos!");
   db.query(getTodosQuery, (error, results) => {
     if (error) throw error;
     res.status(200).json(results.rows);
@@ -18,6 +19,7 @@ export const getTodos: RequestHandler = (req, res) => {
 
 export const getTodo: RequestHandler = (req, res) => {
   const id = parseInt(req.params.id);
+  res.send("getTodo!");
   db.query(getTodoQuery, [id], (error, results) => {
     if (error) throw error;
     res.status(200).json(results.rows);
@@ -26,6 +28,7 @@ export const getTodo: RequestHandler = (req, res) => {
 
 export const addTodo: RequestHandler = (req, res) => {
   const { task, done } = req.body;
+  res.send("addTodo!");
 
   const isTaskDone = done ?? false;
 
@@ -48,6 +51,7 @@ export const addTodo: RequestHandler = (req, res) => {
 
 export const removeTodo: RequestHandler = (req, res) => {
   const id = parseInt(req.params.id);
+  res.send("removeTodo!");
 
   db.query(getTodoQuery, [id], (error, results) => {
     if (!results.rows.length) {
@@ -65,6 +69,7 @@ export const removeTodo: RequestHandler = (req, res) => {
 export const updateTodo: RequestHandler = (req, res) => {
   const id = parseInt(req.params.id);
   const { task, done } = req.body;
+  res.send("updateTodo!");
 
   let query = "UPDATE todos SET ";
   const params: Array<string | number> = [];
