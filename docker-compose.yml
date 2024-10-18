@@ -1,5 +1,8 @@
 volumes:
   db-volume:
+networks:
+  todo-network:
+    driver: bridge
 services:
   db:
     image: postgres
@@ -7,22 +10,43 @@ services:
     volumes:
       - db-volume:/var/lib/postgresql/data
     ports:
-      - '127.0.0.1:5432:5432'
-  
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+    networks:
+      - todo-network
+
   backend:
     restart: always
     build: ./backend
     ports:
-      - '8080:8080'
+      - "8080:8080"
     depends_on:
       - db
+    networks:
+      - todo-network
 
   frontend:
     image: frontend:0.0.1
     build: ./frontend
     restart: always
     ports:
-      - '3000:3000'
+      - "3000:3000"
     volumes:
       - /app/node_modules
       - ./frontend:/app
+    networks:
+      - todo-network
+
+  nginx:
+    image: nginx:stable-alpine
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    networks:
+      - todo-network
+    depends_on:
+      - backend
+      - frontend

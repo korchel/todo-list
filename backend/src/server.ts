@@ -12,4 +12,7 @@ app.listen(port, () => {
 app.use(express.json());
 app.use(cors());
 
-app.use("/api/todos", router);
+app.use("/api", router);
+app.get("/api", (req, res) => {
+  res.send("Hello World!");
+});
