@@ -33,9 +33,8 @@ services:
       - todo-network
 
   frontend:
-    image: frontend:0.0.1
-    build: ./frontend
     restart: always
+    build: ./frontend
     ports:
       - '3000:3000'
     volumes:
