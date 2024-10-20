@@ -13,7 +13,7 @@ interface ItaskUpdateRequest {
 
 export const todosApi = createApi({
 	reducerPath: 'todos',
-	baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api/todos' }),
+	baseQuery: fetchBaseQuery({ baseUrl: 'http://46.148.228.72/api/todos' }),
 	tagTypes: ['Task'],
 	endpoints: (builder) => ({
 		getTasks: builder.query<ITask[], void>({
