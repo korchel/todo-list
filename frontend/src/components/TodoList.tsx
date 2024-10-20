@@ -49,6 +49,7 @@ const TodoList: React.FC = () => {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    if (text.trim().length === 0) return;
     addTask({ task: text });
     setText('');
   };
